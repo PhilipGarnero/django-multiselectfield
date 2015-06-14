@@ -114,7 +114,7 @@ class MultiSelectField(models.CharField):
             return None
         elif value == '':
             return []
-        elif isinstance(value, list):
+        elif isinstance(value, list) or isinstance(value, set):
             return value
         else:
             return value.split(',')
