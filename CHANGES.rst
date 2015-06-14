@@ -1,3 +1,25 @@
+0.1.3 (2014-10-13)
+------------------
+
+* Support to Django 1.7 (I'm sorry to the delay)
+* Adding get_FIELD_list function
+* Fix an error when a MultiSelectField was reandonly at the admin site
+* Thanks to:
+    * `Hernil <https://github.com/hernil>`_
+    * `Vasyl Stanislavchuk <https://github.com/vasyabigi>`_
+    * `Litchfield <https://github.com/litchfield/>`_
+    * `Chris-erickson <https://github.com/chris-erickson>`_
+
+0.1.2 (2014-04-04)
+------------------
+
+* Include the spanish translations to the pypi egg
+* Improvements in the readme file
+* Windows OS compatibility
+* Thanks to:
+    * `StillNewb <https://github.com/StillNewb>`_
+    * `Diego Yungh <https://github.com/DiegoYungh>`_
+
 0.1.1 (2013-12-04)
 ------------------
 * Move the multiselectfield app to parent folder

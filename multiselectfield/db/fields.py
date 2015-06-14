@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2012-2013 by Pablo Martín <goinnn@gmail.com>
+# Copyright (c) 2012 by Pablo Martín <goinnn@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -57,6 +57,10 @@ class MultiSelectField(models.CharField):
         if self.max_choices is not None:
             self.validators.append(MaxChoicesValidator(self.max_choices))
 
+    @property
+    def flatchoices(self):
+        return None
+
     def get_choices_default(self):
         return self.get_choices(include_blank=False)
 
@@ -74,7 +78,7 @@ class MultiSelectField(models.CharField):
         arr_choices = self.get_choices_selected(self.get_choices_default())
         for opt_select in value:
             if (opt_select not in arr_choices):
-                if django.VERSION[0] >= 1 and django.VERSION[1] >= 6:
+                if django.VERSION[0] == 1 and django.VERSION[1] >= 6:
                     raise exceptions.ValidationError(self.error_messages['invalid_choice'] % {"value": value})
                 else:
                     raise exceptions.ValidationError(self.error_messages['invalid_choice'] % value)
@@ -118,19 +122,25 @@ class MultiSelectField(models.CharField):
     def contribute_to_class(self, cls, name):
         super(MultiSelectField, self).contribute_to_class(cls, name)
         if self.choices:
-            def get_display(obj):
+            def get_list(obj):
                 fieldname = name
                 choicedict = dict(self.choices)
                 display = []
-                for value in getattr(obj, fieldname):
-                    item_display = choicedict.get(value, None)
-                    if item_display is None:
-                        try:
-                            item_display = choicedict.get(int(value), value)
-                        except (ValueError, TypeError):
-                            item_display = value
-                    display.append(string_type(item_display))
-                return ", ".join(display)
+                if getattr(obj, fieldname):
+                    for value in getattr(obj, fieldname):
+                        item_display = choicedict.get(value, None)
+                        if item_display is None:
+                            try:
+                                item_display = choicedict.get(int(value), value)
+                            except (ValueError, TypeError):
+                                item_display = value
+                        display.append(string_type(item_display))
+                return display
+
+            def get_display(obj):
+                return ", ".join(get_list(obj))
+
+            setattr(cls, 'get_%s_list' % self.name, get_list)
             setattr(cls, 'get_%s_display' % self.name, get_display)
 
 MultiSelectField = add_metaclass(models.SubfieldBase)(MultiSelectField)

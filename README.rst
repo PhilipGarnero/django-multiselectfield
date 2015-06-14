@@ -20,23 +20,6 @@ This egg is inspired by this `snippet <http://djangosnippets.org/snippets/1200/>
 Installation
 ============
 
-In your settings.py
--------------------
-
-::
-
-    INSTALLED_APPS = (
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.sites',
-        'django.contrib.admin',
-
-        #.....................#
-
-        'multiselectfield',
-    )
-
 
 In your models.py
 -----------------
@@ -69,10 +52,30 @@ In your models.py
                                      max_length=3)
 
 
+In your settings.py
+-------------------
+
+Only you need it, if you want the translation of django-multiselectfield
+
+::
+
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.admin',
+
+        #.....................#
+
+        'multiselectfield',
+    )
+
+
 Development
 ===========
 
-You can get the last bleeding edge version of django-configfield by doing a clone
+You can get the last bleeding edge version of django-multiselectfield by doing a clone
 of its git repository::
 
   git clone https://github.com/goinnn/django-multiselectfield
@@ -87,4 +90,5 @@ a readily setup project that uses django-multiselectfield. You can run it as usu
 ::
 
     python manage.py syncdb --noinput
+    python manage.py loaddata app_data
     python manage.py runserver
